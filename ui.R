@@ -84,7 +84,7 @@ shinyUI(fluidPage(
              )
     ),
     
-    tabPanel(title="README", 
+    tabPanel(title="About", 
              h3("Welcome the the United States Forest Service Fire data explorer!"),
              p("Explore these data by choosing what you want to see on the axis, color, and size! The default is only a suggestion.
                 For example, set the x-axis to discovery date and y axis to fire size to see how reported
