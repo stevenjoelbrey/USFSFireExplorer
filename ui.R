@@ -92,7 +92,14 @@ shinyUI(fluidPage(
                 pattern is the same in Alaska. Happy exploring!"),
              p("The data plotted in this app was downloaded from the link below."),
              tags$a("Reported Fires Data", 
-                    href="https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0009.3/")
+                    href="https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0009.3/"),
+             
+             h3("Resources:"),
+             tags$a("Steven Brey | Ph.D. Student", 
+                    href="http://atmos.colostate.edu/~sjbrey/"),
+             br(),
+             tags$a("Source code on Github",
+                    href="https://github.com/stevenjoelbrey/USFSFireExplorer")
     )
   )
 ))
