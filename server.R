@@ -1,0 +1,105 @@
+
+
+# Load the USFS fire data 
+df <- get(load("fireOccurrence.RData"))
+rm(fire_data) # we want to be able to refer to the data as df only 
+
+len <- as.numeric(df$CONT_DATE - df$DISCOVERY_DATE)
+dur <- len / (60^2*24)
+df$DUR  <- dur
+
+# Make sure we have something that is all the same, just in case 
+
+shinyServer(function(input, output) {
+
+  
+  output$scatterPlot <- renderPlotly({
+
+    # Choose what will be displayed from the use 
+    xaxis   <- input$xaxis
+    yaxis   <- input$yaxis
+    colors  <- input$color
+    size    <- input$size
+    dotSize <- input$dotSize
+    minSize <- input$minFireSize[1]
+    maxSize <- input$minFireSize[2]
+    alaska  <- input$alaska
+    
+    # Spatial domain subset
+    latMask <- df$LATITUDE >= input$latRange[1] & df$LATITUDE <= input$latRange[2]
+    lonMask <- df$LONGITUDE >= input$lonRange[1] & df$LONGITUDE <= input$lonRange[2]
+    spatialMask <- latMask & lonMask
+    
+    # Subset the data by size 
+    size <- df$FIRE_SIZE
+    sizeMask <- size >= minSize & size <= maxSize
+    
+    # Subset the data by specified date range
+    print(input$dateRange[1])
+    print(input$dateRange[2])
+    
+    tMin <- as.POSIXct(input$dateRange[1], tz="UTC")
+    tMax <- as.POSIXct(input$dateRange[2], tz="UTC")
+    tMask <- tMin <= df$DISCOVERY_DATE  & tMax >= df$CONT_DATE
+    
+    print(sum(tMask))
+    
+    
+    # Subset the dataframe 
+    m <-  sizeMask & tMask & spatialMask
+    dfp <- df[m, ]
+    
+    print(dim(dfp))
+    
+    # Set up the plot labels 
+    f <- list(
+      family = "Courier New, monospace",
+      size = 18,
+      color = "#7f7f7f"
+    )
+    
+    x <- list(
+      title = xaxis,
+      titlefont = f
+    )
+    
+    y <- list(
+      title = yaxis,
+      titlefont = f,
+      exponentformat = "SI"
+    )
+    
+    p <- plot_ly(dfp, x = dfp[[xaxis]], y = dfp[[yaxis]], 
+                 color = dfp[[colors]], size =dfp[[dotSize]],
+                 text = dfp[['FIRE_NAME']]
+                 ) %>%
+      layout(xaxis = x, yaxis = y )
+      
+    p
+    
+    
+
+  })
+  
+  # output$scatterPlot <- renderPlot({
+  #   
+  #   sizeLimits <- input$sizeLimits
+  #   print(sizeLimits)
+  #   minSize    <- sizeLimits[1]
+  #   maxSize    <- sizeLimits[2]
+  #   xaxis      <- input$xaxis
+  #   yaxis      <- input$yaxis
+  # 
+  #   size <- df$FIRE_SIZE
+  #   sizeMask 
+  #   
+  #   print(size)
+  #   print(class(df[[size]]))
+  #   
+  #   
+  #   plot_ly(df, x = ~xaxis, y = ~yaxis, type='scatter',
+  #           text = ~FIRE_NAME)
+  #   
+  # })
+
+})
