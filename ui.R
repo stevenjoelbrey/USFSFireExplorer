@@ -1,14 +1,15 @@
 library(shiny)
 library(plotly)
+library(stringr)
 
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("USFS Fire Explorer"),
+  #titlePanel("USFS Fire Explorer"),
   
   tabsetPanel(
     
-    tabPanel(title="Plotting",          
+    tabPanel(title=h6("USFS Fire Explorer"),          
              
              # Sidebar with a slider input for number of bins
              sidebarLayout(
@@ -37,24 +38,24 @@ shinyUI(fluidPage(
                              selected="LATITUDE"
                  ),
                  
-                 selectInput(inputId="color", label="Color attribute",
+                 selectInput(inputId="color", label="Color attribute (hist x-axis)",
                              choices= c("Fire Cause" = "STAT_CAUSE_DESCR",
+                                        "Cause (binary)" = "cause",
+                                        "Month" = "month",
                                         "Date Discoverd" = "DISCOVERY_DATE", 
                                         "Time discoverd" = "DISCOVERY_TIME",
                                         "Fire Size (acres)" = "FIRE_SIZE",
                                         "Fire Latitude" = "LATITUDE", 
                                         "Fire Longitude" = "LONGITUDE", 
+                                        "Year" = "year",
                                         "none"),
                              selected="STAT_CAUSE_DESCR"),
                  
                  selectInput(inputId="dotSize", label="Size attribute",
                              choices= c("none",
-                                        "Date Discoverd" = "DISCOVERY_DATE", 
-                                        "Time discoverd" = "DISCOVERY_TIME",
                                         "Fire Size (acres)" = "FIRE_SIZE",
                                         "Fire Latitude" = "LATITUDE", 
-                                        "Fire Longitude" = "LONGITUDE" 
-                                        ),
+                                        "Fire Longitude" = "LONGITUDE"                                        ),
                              selected="FIRE_SIZE"),
                  
                  sliderInput("latRange", 
@@ -69,8 +70,8 @@ shinyUI(fluidPage(
                  
                  sliderInput("minFireSize", 
                              label="Fire size range (acres)", 
-                             min = 100, max = 610000, value = c(1000, 606945),
-                             format="$#,##0", locale="us"),
+                             min = 10, max = 610000, value = c(1000, 606945),
+                             format="$#,##0", locale="us", step=100),
                  
                  dateRangeInput(inputId='dateRange', label='Date Range',
                                 start = '1992-01-01', end='2013-12-31')    
@@ -79,12 +80,14 @@ shinyUI(fluidPage(
                
                # Show a plot of the generated distribution
                mainPanel(
-                 plotlyOutput("scatterPlot", height="80%")
+                 plotlyOutput("scatterPlot", height = "355px", width = "90%"),
+                 #br(),
+                 plotlyOutput("histogram", height = "280px", width = "90%")
                )
              )
     ),
     
-    tabPanel(title="About", 
+    tabPanel(title=h6("About"), 
              h3("Welcome the the United States Forest Service Fire data explorer!"),
              p("Explore these data by choosing what you want to see on the axis, color, and size! The default is only a suggestion.
                 For example, set the x-axis to discovery date and y axis to fire size to see how reported

@@ -8,6 +8,16 @@ len <- as.numeric(df$CONT_DATE - df$DISCOVERY_DATE)
 dur <- len / (60^2*24)
 df$DUR  <- dur
 
+cause <- df$STAT_CAUSE_DESCR
+humanMask <- !(cause == "Lightning")
+cause[humanMask] <- "Anthropogenic"
+df$cause <- cause
+
+df$year  <- str_sub(as.character(df$DISCOVERY_DATE), 1, 4)
+df$month <- str_sub(as.character(df$DISCOVERY_DATE), 6, 7)
+
+
+
 # Make sure we have something that is all the same, just in case 
 
 shinyServer(function(input, output) {
@@ -35,21 +45,13 @@ shinyServer(function(input, output) {
     sizeMask <- size >= minSize & size <= maxSize
     
     # Subset the data by specified date range
-    print(input$dateRange[1])
-    print(input$dateRange[2])
-    
     tMin <- as.POSIXct(input$dateRange[1], tz="UTC")
     tMax <- as.POSIXct(input$dateRange[2], tz="UTC")
     tMask <- tMin <= df$DISCOVERY_DATE  & tMax >= df$CONT_DATE
     
-    print(sum(tMask))
-    
-    
     # Subset the dataframe 
     m <-  sizeMask & tMask & spatialMask
     dfp <- df[m, ]
-    
-    print(dim(dfp))
     
     # Set up the plot labels 
     f <- list(
@@ -78,28 +80,57 @@ shinyServer(function(input, output) {
     p
     
     
-
   })
   
-  # output$scatterPlot <- renderPlot({
-  #   
-  #   sizeLimits <- input$sizeLimits
-  #   print(sizeLimits)
-  #   minSize    <- sizeLimits[1]
-  #   maxSize    <- sizeLimits[2]
-  #   xaxis      <- input$xaxis
-  #   yaxis      <- input$yaxis
-  # 
-  #   size <- df$FIRE_SIZE
-  #   sizeMask 
-  #   
-  #   print(size)
-  #   print(class(df[[size]]))
-  #   
-  #   
-  #   plot_ly(df, x = ~xaxis, y = ~yaxis, type='scatter',
-  #           text = ~FIRE_NAME)
-  #   
-  # })
+  output$histogram <- renderPlotly({
+    
+    # Choose what will be displayed from the use 
+    xaxis   <- input$xaxis
+    yaxis   <- input$yaxis
+    colors  <- input$color
+    size    <- input$size
+    dotSize <- input$dotSize
+    minSize <- input$minFireSize[1]
+    maxSize <- input$minFireSize[2]
+    alaska  <- input$alaska
+    
+    # Spatial domain subset
+    latMask <- df$LATITUDE >= input$latRange[1] & df$LATITUDE <= input$latRange[2]
+    lonMask <- df$LONGITUDE >= input$lonRange[1] & df$LONGITUDE <= input$lonRange[2]
+    spatialMask <- latMask & lonMask
+    
+    # Subset the data by size 
+    size <- df$FIRE_SIZE
+    sizeMask <- size >= minSize & size <= maxSize
+    
+    # Subset the data by specified date range
+    tMin <- as.POSIXct(input$dateRange[1], tz="UTC")
+    tMax <- as.POSIXct(input$dateRange[2], tz="UTC")
+    tMask <- tMin <= df$DISCOVERY_DATE  & tMax >= df$CONT_DATE
+    
+    # Subset the dataframe 
+    m <-  sizeMask & tMask & spatialMask
+    dfp <- df[m, ]
+    
+    axisFont <- list(
+      family = "Courier New, monospace",
+      size = 9,
+      color = "#7f7f7f")
+    
+    axis <- list(
+      tickfont = axisFont
+    )
+    
+    p <- plot_ly(dfp, alpha = 1) %>% 
+                 add_histogram(x = dfp[[colors]], color = dfp[[colors]]) %>%
+      layout(barmode = "overlay", xaxis=axis) %>%
+      hide_legend() %>%
+      hide_colorbar()
+    
+    p
+    
+    
+    
+  })
 
 })
