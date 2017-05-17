@@ -17,9 +17,9 @@ shinyUI(fluidPage(
                sidebarPanel(
                  
                  selectInput(inputId="xaxis", label="X Axis",
-                             choices= c("Date Discoverd" = "DISCOVERY_DATE",
+                             choices= c("Date Discovered" = "DISCOVERY_DATE",
                                         "Date Contained" = "CONT_DATE",
-                                        "Time discoverd" = "DISCOVERY_TIME",
+                                        "Time discovered" = "DISCOVERY_TIME",
                                         "Fire Size (acres)" = "FIRE_SIZE",
                                         "Fire Latitude" = "LATITUDE", 
                                         "Fire Longitude" = "LONGITUDE", 
@@ -28,9 +28,9 @@ shinyUI(fluidPage(
                  ),
                  
                  selectInput(inputId="yaxis", label="Y Axis",
-                             choices= c("Date Discoverd" = "DISCOVERY_DATE",
+                             choices= c("Date Discovered" = "DISCOVERY_DATE",
                                         "Date Contained" = "CONT_DATE",
-                                        "Time discoverd" = "DISCOVERY_TIME",
+                                        "Time discovered" = "DISCOVERY_TIME",
                                         "Fire Size (acres)" = "FIRE_SIZE",
                                         "Fire Latitude" = "LATITUDE", 
                                         "Fire Longitude" = "LONGITUDE", 
@@ -42,8 +42,8 @@ shinyUI(fluidPage(
                              choices= c("Fire Cause" = "STAT_CAUSE_DESCR",
                                         "Cause (binary)" = "cause",
                                         "Month" = "month",
-                                        "Date Discoverd" = "DISCOVERY_DATE", 
-                                        "Time discoverd" = "DISCOVERY_TIME",
+                                        "Date Discovered" = "DISCOVERY_DATE", 
+                                        "Time discovered" = "DISCOVERY_TIME",
                                         "Fire Size (acres)" = "FIRE_SIZE",
                                         "Fire Latitude" = "LATITUDE", 
                                         "Fire Longitude" = "LONGITUDE", 
@@ -60,18 +60,16 @@ shinyUI(fluidPage(
                  
                  sliderInput("latRange", 
                              label="Latitude Range:", 
-                             min = 17, max = 70, value = c(17, 70),
-                            locale="us"),
+                             min = 17, max = 70, value = c(17, 70)),
                  
                  sliderInput("lonRange", 
                              label="Longitude Range", 
-                             min = -170, max = -65, value = c(-170, -65),
-                             locale="us"),
+                             min = -170, max = -65, value = c(-170, -65)),
                  
                  sliderInput("minFireSize", 
                              label="Fire size range (acres)", 
                              min = 10, max = 610000, value = c(1000, 606945),
-                             format="$#,##0", locale="us", step=100),
+                             step=100),
                  
                  dateRangeInput(inputId='dateRange', label='Date Range',
                                 start = '1992-01-01', end='2013-12-31')    
@@ -96,6 +94,12 @@ shinyUI(fluidPage(
              p("The data plotted in this app was downloaded from the link below."),
              tags$a("Reported Fires Data", 
                     href="https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0009.3/"),
+             p("I downloaded the GDB.zip file and extracted the spatial points attributes using ARC-GIS. If you don't have
+               a copy feel free to download the .RData spreadsheet version from the Data directory on my github page.
+               There are more details about how I choose to subset the data in an R-script I wrote associated with a different
+               project."), 
+             tags$a("How I subset the data", 
+                    href="https://github.com/stevenjoelbrey/HMSExplorer/blob/master/R/readUSFSFireOccurance.R"),
              
              h3("Resources:"),
              tags$a("Steven Brey | Ph.D. Student", 
