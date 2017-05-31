@@ -94,11 +94,14 @@ shinyUI(fluidPage(
              p("The data plotted in this app was downloaded from the link below."),
              tags$a("Reported Fires Data", 
                     href="https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0009.3/"),
+             br(),
+             tags$a("Paper describing how these data are made", 
+                    href="http://www.earth-syst-sci-data.net/6/1/2014/"),
              p("I downloaded the GDB.zip file and extracted the spatial points attributes using ARC-GIS. If you don't have
                a copy feel free to download the .RData spreadsheet version from the Data directory on my github page.
                There are more details about how I choose to subset the data in an R-script I wrote associated with a different
                project."), 
-             tags$a("How I subset the data", 
+             tags$a("How I subset and originally read in the data", 
                     href="https://github.com/stevenjoelbrey/HMSExplorer/blob/master/R/readUSFSFireOccurance.R"),
              
              h3("Resources:"),
