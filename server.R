@@ -1,7 +1,7 @@
 
 
 # Load the USFS fire data 
-df <- get(load("fireOccurrence.RData"))
+df <- get(load("fireOccurrence_Wpop.RData"))
 rm(fire_data) # we want to be able to refer to the data as df only 
 
 len <- as.numeric(df$CONT_DATE - df$DISCOVERY_DATE)

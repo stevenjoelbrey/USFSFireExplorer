@@ -23,7 +23,8 @@ shinyUI(fluidPage(
                                         "Fire Size (acres)" = "FIRE_SIZE",
                                         "Fire Latitude" = "LATITUDE", 
                                         "Fire Longitude" = "LONGITUDE", 
-                                        "Duration (days)" = "DUR"),
+                                        "Duration (days)" = "DUR",
+                                        "people/km" = "POPULATION_DENSITY"),
                              selected="LONGITUDE"
                  ),
                  
@@ -34,7 +35,8 @@ shinyUI(fluidPage(
                                         "Fire Size (acres)" = "FIRE_SIZE",
                                         "Fire Latitude" = "LATITUDE", 
                                         "Fire Longitude" = "LONGITUDE", 
-                                        "Duration (days)" = "DUR"),
+                                        "Duration (days)" = "DUR",
+                                        "people/km" = "POPULATION_DENSITY"),
                              selected="LATITUDE"
                  ),
                  
@@ -48,6 +50,7 @@ shinyUI(fluidPage(
                                         "Fire Latitude" = "LATITUDE", 
                                         "Fire Longitude" = "LONGITUDE", 
                                         "Year" = "year",
+                                        "people/km" = "POPULATION_DENSITY",
                                         "none"),
                              selected="STAT_CAUSE_DESCR"),
                  
@@ -55,7 +58,9 @@ shinyUI(fluidPage(
                              choices= c("none",
                                         "Fire Size (acres)" = "FIRE_SIZE",
                                         "Fire Latitude" = "LATITUDE", 
-                                        "Fire Longitude" = "LONGITUDE"                                        ),
+                                        "Fire Longitude" = "LONGITUDE",
+                                        "people/km" = "POPULATION_DENSITY"
+                                        ),
                              selected="FIRE_SIZE"),
                  
                  sliderInput("latRange", 
@@ -86,7 +91,7 @@ shinyUI(fluidPage(
     ),
     
     tabPanel(title=h6("About"), 
-             h3("Welcome the the United States Forest Service Fire data explorer!"),
+             h3("Welcome the the Fire Program Analysis Fire-Occurrence Database explorer!"),
              p("Explore these data by choosing what you want to see on the axis, color, and size! The default is only a suggestion.
                 For example, set the x-axis to discovery date and y axis to fire size to see how reported
                 fire sizes are changing versus time. Set the minimum latitude to 50 to see if the
