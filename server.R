@@ -1,21 +1,22 @@
 
 
 # Load the USFS fire data 
-df <- get(load("fireOccurrence_Wpop.RData"))
-rm(fire_data) # we want to be able to refer to the data as df only 
+df <- get(load("FPA_FOD_1992_2015.RData"))
+rm(FPA_FOD) # we want to be able to refer to the data as df only 
 
+# NOTE: MANY OF THESE FIRES DO NOT HAVE A CONT_DATE. Most. 
 len <- as.numeric(df$CONT_DATE - df$DISCOVERY_DATE)
 dur <- len / (60^2*24)
 df$DUR  <- dur
 
 cause <- df$STAT_CAUSE_DESCR
-humanMask <- !(cause == "Lightning")
+humanMask <- (cause != "Lightning")
 cause[humanMask] <- "Anthropogenic"
 df$cause <- cause
 
+# TODO: replace with Lubridate::year() and month() functionality 
 df$year  <- str_sub(as.character(df$DISCOVERY_DATE), 1, 4)
 df$month <- str_sub(as.character(df$DISCOVERY_DATE), 6, 7)
-
 
 
 # Make sure we have something that is all the same, just in case 
