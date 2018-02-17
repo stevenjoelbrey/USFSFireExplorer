@@ -3,6 +3,7 @@
 # Datasource: https://neo.sci.gsfc.nasa.gov/view.php?datasetId=SEDAC_POP
 
 library(raster)
+library(maps)
 
 ################################################################################
 # Get and understand population data 
@@ -36,7 +37,7 @@ map("state", add=T)
 # If Colorado shows no data these lat lon arrays work and I can move forward
 
 # Append population data to fire occurance data
-load("fireOccurrence.RData")
+load("~/sharedProjects/HMSExplorer/data/fireOccurrence.RData")
 
 n <- dim(fire_data)[1]
 
