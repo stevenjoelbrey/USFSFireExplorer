@@ -9,8 +9,8 @@ shinyUI(fluidPage(
   
   tabsetPanel(
     
-    tabPanel(title=h6("USFS Fire Explorer"),          
-             
+    tabPanel(title=h6("Fire Occurrence Explorer"),          
+            
              # Sidebar with a slider input for number of bins
              sidebarLayout(
                
@@ -23,8 +23,9 @@ shinyUI(fluidPage(
                                         "Fire Size (acres)" = "FIRE_SIZE",
                                         "Fire Latitude" = "LATITUDE", 
                                         "Fire Longitude" = "LONGITUDE", 
-                                        "Duration (days)" = "DUR",
-                                        "people/km" = "POPULATION_DENSITY"),
+                                        "Duration (days)" = "DUR"
+                                        #"people/km" = "POPULATION_DENSITY"
+                                        ),
                              selected="LONGITUDE"
                  ),
                  
@@ -35,8 +36,9 @@ shinyUI(fluidPage(
                                         "Fire Size (acres)" = "FIRE_SIZE",
                                         "Fire Latitude" = "LATITUDE", 
                                         "Fire Longitude" = "LONGITUDE", 
-                                        "Duration (days)" = "DUR",
-                                        "people/km" = "POPULATION_DENSITY"),
+                                        "Duration (days)" = "DUR"
+                                        #"people/km" = "POPULATION_DENSITY"
+                                        ),
                              selected="LATITUDE"
                  ),
                  
@@ -50,7 +52,7 @@ shinyUI(fluidPage(
                                         "Fire Latitude" = "LATITUDE", 
                                         "Fire Longitude" = "LONGITUDE", 
                                         "Year" = "year",
-                                        "people/km" = "POPULATION_DENSITY",
+                                        #"people/km" = "POPULATION_DENSITY",
                                         "none"),
                              selected="STAT_CAUSE_DESCR"),
                  
@@ -58,18 +60,18 @@ shinyUI(fluidPage(
                              choices= c("none",
                                         "Fire Size (acres)" = "FIRE_SIZE",
                                         "Fire Latitude" = "LATITUDE", 
-                                        "Fire Longitude" = "LONGITUDE",
-                                        "people/km" = "POPULATION_DENSITY"
+                                        "Fire Longitude" = "LONGITUDE"
+                                        #"people/km" = "POPULATION_DENSITY"
                                         ),
                              selected="FIRE_SIZE"),
                  
                  sliderInput("latRange", 
                              label="Latitude Range:", 
-                             min = 17, max = 70, value = c(17, 70)),
+                             min = 17, max = 70, value = c(25, 50)),
                  
                  sliderInput("lonRange", 
                              label="Longitude Range", 
-                             min = -170, max = -65, value = c(-170, -65)),
+                             min = -170, max = -65, value = c(-127, -65)),
                  
                  sliderInput("minFireSize", 
                              label="Fire size range (acres)", 
