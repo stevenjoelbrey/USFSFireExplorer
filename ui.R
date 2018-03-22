@@ -2,10 +2,12 @@ library(shiny)
 library(plotly)
 library(stringr)
 
+# TODO:https://stackoverflow.com/questions/35599470/shiny-dashboard-display-a-dedicated-loading-page-until-initial-loading-of
+
 shinyUI(fluidPage(
   
   # Application title
-  #titlePanel("USFS Fire Explorer"),
+  #titlePanel("Title here),
   
   tabsetPanel(
     
@@ -75,11 +77,11 @@ shinyUI(fluidPage(
                  
                  sliderInput("minFireSize", 
                              label="Fire size range (acres)", 
-                             min = 10, max = 610000, value = c(1000, 606945),
+                             min = 1000, max = 610000, value = c(1000, 606945),
                              step=100),
                  
                  dateRangeInput(inputId='dateRange', label='Date Range',
-                                start = '1992-01-01', end='2013-12-31')    
+                                start = '1992-01-01', end='2015-12-31')    
                  
                ), # end of side bar panel
                
@@ -97,7 +99,7 @@ shinyUI(fluidPage(
              p("Explore these data by choosing what you want to see on the axis, color, and size! The default is only a suggestion.
                 For example, set the x-axis to discovery date and y axis to fire size to see how reported
                 fire sizes are changing versus time. Set the minimum latitude to 50 to see if the
-                pattern is the same in Alaska. Happy exploring!"),
+                pattern is the same in Alaska. Happy exploring! Fires smaller than 1000 acres are excluded from this app."),
              p("The data plotted in this app was downloaded from the link below."),
              tags$a("Reported Fires Data", 
                     href="https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0009.3/"),
