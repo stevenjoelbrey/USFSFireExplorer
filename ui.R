@@ -69,11 +69,11 @@ shinyUI(fluidPage(
                  
                  sliderInput("latRange", 
                              label="Latitude Range:", 
-                             min = 17, max = 70, value = c(25, 50)),
+                             min = 17, max = 70, value = c(25, 70)),
                  
                  sliderInput("lonRange", 
                              label="Longitude Range", 
-                             min = -170, max = -65, value = c(-127, -65)),
+                             min = -170, max = -65, value = c(-170, -65)),
                  
                  sliderInput("minFireSize", 
                              label="Fire size range (acres)", 
