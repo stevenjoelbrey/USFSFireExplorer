@@ -107,9 +107,7 @@ shinyServer(function(input, output) {
         color = dfp[[colors]], size =dfp[[dotSize]], 
         text = ~paste("Firename:", dfp[["FIRE_NAME"]], "size", dfp[["FIRE_SIZE"]])
       ) %>%
-      layout(title = 'Fire Program Analysis Fire Occurrence Data',
-             geo=g,
-             legend = l)
+      layout(geo=g, legend = l)
     
     p
     
